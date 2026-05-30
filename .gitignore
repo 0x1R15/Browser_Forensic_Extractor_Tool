@@ -1,0 +1,24 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.venv/
+venv/
+ENV/
+env/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Project-specific temporary/output files
+temp_extraction/
+temp_extraction_test/
+test_report.json
+test_report.pdf
+test_timeline.csv
+Case_INV-*.json
+Case_INV-*.pdf
+Case_INV-*.csv
