@@ -104,6 +104,7 @@ class BrowserParser:
         
         # 1. Parse History & Detect Gaps
         if history_temp and os.path.exists(history_temp):
+            conn = None
             try:
                 # Use query mode=ro
                 conn = sqlite3.connect(f"file:{history_temp}?mode=ro", uri=True)
@@ -139,13 +140,15 @@ class BrowserParser:
                         if diff > 1:
                             gaps += (diff - 1)
                     results['deleted_gaps'] = gaps
-                    
-                conn.close()
             except Exception as e:
                 print(f"Error parsing History for {browser_name}: {e}")
+            finally:
+                if conn:
+                    conn.close()
                 
         # 2. Parse Downloads
         if history_temp and os.path.exists(history_temp):
+            conn = None
             try:
                 conn = sqlite3.connect(f"file:{history_temp}?mode=ro", uri=True)
                 cursor = conn.cursor()
@@ -176,12 +179,15 @@ class BrowserParser:
                 except sqlite3.OperationalError as db_e:
                     # In older schemas, downloads is structured differently
                     print(f"Skipping downloads parse or old schema: {db_e}")
-                conn.close()
             except Exception as e:
                 print(f"Error parsing Downloads for {browser_name}: {e}")
+            finally:
+                if conn:
+                    conn.close()
                 
         # 3. Parse Cookies
         if cookies_temp and os.path.exists(cookies_temp):
+            conn = None
             try:
                 conn = sqlite3.connect(f"file:{cookies_temp}?mode=ro", uri=True)
                 cursor = conn.cursor()
@@ -208,12 +214,15 @@ class BrowserParser:
                         'browser': f"{browser_name} ({profile_name})",
                         'source': 'Cookie'
                     })
-                conn.close()
             except Exception as e:
                 print(f"Error parsing Cookies for {browser_name}: {e}")
+            finally:
+                if conn:
+                    conn.close()
                 
         # 4. Parse Autofill (Web Data)
         if web_data_temp and os.path.exists(web_data_temp):
+            conn = None
             try:
                 conn = sqlite3.connect(f"file:{web_data_temp}?mode=ro", uri=True)
                 cursor = conn.cursor()
@@ -234,12 +243,15 @@ class BrowserParser:
                             'browser': f"{browser_name} ({profile_name})",
                             'source': 'Autofill'
                         })
-                conn.close()
             except Exception as e:
                 print(f"Error parsing Autofill for {browser_name}: {e}")
+            finally:
+                if conn:
+                    conn.close()
                 
         # 5. Parse Logins (Login Data)
         if logins_temp and os.path.exists(logins_temp):
+            conn = None
             try:
                 conn = sqlite3.connect(f"file:{logins_temp}?mode=ro", uri=True)
                 cursor = conn.cursor()
@@ -264,9 +276,11 @@ class BrowserParser:
                         'browser': f"{browser_name} ({profile_name})",
                         'source': 'Login'
                     })
-                conn.close()
             except Exception as e:
                 print(f"Error parsing Logins for {browser_name}: {e}")
+            finally:
+                if conn:
+                    conn.close()
                 
         return results
 
@@ -295,6 +309,7 @@ class BrowserParser:
         
         # 1. Parse History & Detect Gaps
         if places_temp and os.path.exists(places_temp):
+            conn = None
             try:
                 conn = sqlite3.connect(f"file:{places_temp}?mode=ro", uri=True)
                 cursor = conn.cursor()
@@ -328,13 +343,15 @@ class BrowserParser:
                         if diff > 1:
                             gaps += (diff - 1)
                     results['deleted_gaps'] = gaps
-                    
-                conn.close()
             except Exception as e:
                 print(f"Error parsing Firefox History: {e}")
+            finally:
+                if conn:
+                    conn.close()
                 
         # 2. Parse Downloads from moz_annos
         if places_temp and os.path.exists(places_temp):
+            conn = None
             try:
                 conn = sqlite3.connect(f"file:{places_temp}?mode=ro", uri=True)
                 cursor = conn.cursor()
@@ -368,12 +385,15 @@ class BrowserParser:
                         'browser': f"Firefox ({profile_name})",
                         'source': 'Download'
                     })
-                conn.close()
             except Exception as e:
                 print(f"Error parsing Firefox Downloads: {e}")
+            finally:
+                if conn:
+                    conn.close()
                 
         # 3. Parse Cookies
         if cookies_temp and os.path.exists(cookies_temp):
+            conn = None
             try:
                 conn = sqlite3.connect(f"file:{cookies_temp}?mode=ro", uri=True)
                 cursor = conn.cursor()
@@ -395,12 +415,15 @@ class BrowserParser:
                         'browser': f"Firefox ({profile_name})",
                         'source': 'Cookie'
                     })
-                conn.close()
             except Exception as e:
                 print(f"Error parsing Firefox Cookies: {e}")
+            finally:
+                if conn:
+                    conn.close()
                 
         # 4. Parse Autofill
         if formhist_temp and os.path.exists(formhist_temp):
+            conn = None
             try:
                 conn = sqlite3.connect(f"file:{formhist_temp}?mode=ro", uri=True)
                 cursor = conn.cursor()
@@ -418,9 +441,11 @@ class BrowserParser:
                         'browser': f"Firefox ({profile_name})",
                         'source': 'Autofill'
                     })
-                conn.close()
             except Exception as e:
                 print(f"Error parsing Firefox Autofill: {e}")
+            finally:
+                if conn:
+                    conn.close()
                 
         # 5. Parse Logins from logins.json
         if os.path.exists(logins_src):

@@ -376,15 +376,15 @@ class ForensicApp:
             # Map item fields to grid row values
             row_vals = []
             if category == 'history':
-                row_vals = [item['timestamp'], item['url'], item['title'], item['visit_duration'], item['visit_count'], item['typed_count']]
+                row_vals = [item.get('timestamp', ''), item.get('url', ''), item.get('title', ''), item.get('visit_duration', 0), item.get('visit_count', 0), item.get('typed_count', 0)]
             elif category == 'downloads':
-                row_vals = [item['timestamp'], item['file_name'], item['state'], item['total_bytes'], item['target_path'], item['referrer']]
+                row_vals = [item.get('timestamp', ''), item.get('file_name', ''), item.get('state', ''), item.get('total_bytes', 0), item.get('target_path', ''), item.get('referrer', '')]
             elif category == 'cookies':
-                row_vals = [item['timestamp'], item['host'], item['name'], item['value'], item['expiry'], item['is_secure'], item['is_httponly']]
+                row_vals = [item.get('timestamp', ''), item.get('host', ''), item.get('name', ''), item.get('value', ''), item.get('expiry', ''), item.get('is_secure', False), item.get('is_httponly', False)]
             elif category == 'autofill':
-                row_vals = [item['timestamp'], item['field_name'], item['value'], item['count']]
+                row_vals = [item.get('timestamp', ''), item.get('field_name', ''), item.get('value', ''), item.get('count', 0)]
             elif category == 'logins':
-                row_vals = [item['timestamp'], item['origin_url'], item['username_element'], item['username_value'], item['password_element'], item['password_value']]
+                row_vals = [item.get('timestamp', ''), item.get('origin_url', ''), item.get('username_element', ''), item.get('username_value', ''), item.get('password_element', ''), item.get('password_value', '')]
                 
             # Perform search check
             if search_query:
@@ -583,12 +583,12 @@ class ForensicApp:
             # Cookies
             for c in data.get('cookies', []):
                 records.append({
-                    'timestamp': c['timestamp'],
-                    'browser': c['browser'],
-                    'source_table': c['source'],
+                    'timestamp': c.get('timestamp', ''),
+                    'browser': c.get('browser', ''),
+                    'source_table': c.get('source', ''),
                     'event_type': 'Cookie Creation',
-                    'primary_info': c['host'],
-                    'secondary_info': f"Name: {c['name']}"
+                    'primary_info': c.get('host', 'Unknown'),
+                    'secondary_info': f"Name: {c.get('name', 'Unknown')}"
                 })
             # Autofill
             for af in data.get('autofill', []):

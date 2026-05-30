@@ -99,13 +99,13 @@ def export_csv(all_data: dict, filepath: str):
         # Cookies
         for c in data.get('cookies', []):
             timeline_records.append({
-                'Timestamp': c['timestamp'],
-                'Browser': c['browser'],
-                'Source Table': c['source'],
+                'Timestamp': c.get('timestamp', ''),
+                'Browser': c.get('browser', ''),
+                'Source Table': c.get('source', ''),
                 'Event Type': 'Cookie Creation',
-                'Primary Info': f"{c['host']} (Name: {c['name']})",
-                'Secondary Info': c['path'],
-                'Detail Value': f"Expiry: {c['expiry']}, Secure: {c['is_secure']}, HttpOnly: {c['is_httponly']}"
+                'Primary Info': f"{c.get('host', 'Unknown')} (Name: {c.get('name', 'Unknown')})",
+                'Secondary Info': c.get('path', ''),
+                'Detail Value': f"Expiry: {c.get('expiry', '')}, Secure: {c.get('is_secure', False)}, HttpOnly: {c.get('is_httponly', False)}"
             })
         # Autofill
         for af in data.get('autofill', []):
@@ -366,7 +366,7 @@ def generate_pdf_report(all_data: dict, anomalies: list, case_meta: dict, filepa
         for dl in data.get('downloads', []):
             timeline_records.append((dl['timestamp'], dl['browser'], "Download", dl['file_name'], dl['target_path'][:60]))
         for c in data.get('cookies', []):
-            timeline_records.append((c['timestamp'], c['browser'], "Cookie", f"Cookie set: {c['host']}", c['name']))
+            timeline_records.append((c.get('timestamp', ''), c.get('browser', ''), "Cookie", f"Cookie set: {c.get('host', 'Unknown')}", c.get('name', 'Unknown')))
         for af in data.get('autofill', []):
             timeline_records.append((af['timestamp'], af['browser'], "Autofill", af['field_name'], af['value']))
             
