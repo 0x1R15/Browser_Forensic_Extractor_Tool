@@ -5,8 +5,8 @@ from tkinter import ttk, filedialog, messagebox
 from datetime import datetime
 import pandas as pd
 
-from .parsers import BrowserParser, run_diagnostics
-from .reports import export_json, export_csv, generate_pdf_report
+from parsers import BrowserParser, run_diagnostics
+from reports import export_json, export_csv, generate_pdf_report
 
 class ForensicApp:
     def __init__(self, root):

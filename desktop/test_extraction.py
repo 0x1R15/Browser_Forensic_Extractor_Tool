@@ -2,11 +2,9 @@ import os
 import sys
 from datetime import datetime
 
-# Ensure root package is in Python path
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-from browser_forensics.parsers import BrowserParser, run_diagnostics
-from browser_forensics.reports import export_json, export_csv, generate_pdf_report
+# Import local modules (run as: python desktop/test_extraction.py)
+from parsers import BrowserParser, run_diagnostics
+from reports import export_json, export_csv, generate_pdf_report
 
 def get_mtimes(parser):
     """Gathers last modification times of all active original browser files."""

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>FBEx — Status</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <header class="brand">
+    <img src="../icons/icon48.png" alt="" width="28" height="28" />
+    <div>
+      <h1>Forensic Browser Extractor</h1>
+      <p id="chainLine">Evidence chain: verifying…</p>
+    </div>
+  </header>
+
+  <section class="statusbar">
+    <span class="dot" id="captureDot"></span>
+    <span id="captureLabel">Capture: —</span>
+    <label class="switch">
+      <input type="checkbox" id="captureToggle" />
+      <span class="slider"></span>
+    </label>
+  </section>
+
+  <section class="stats">
+    <div class="stat"><b id="stVisits">–</b><span>Visits</span></div>
+    <div class="stat"><b id="stIncognito">–</b><span>Private</span></div>
+    <div class="stat"><b id="stDownloads">–</b><span>Downloads</span></div>
+    <div class="stat"><b id="stCookies">–</b><span>Cookie evts</span></div>
+  </section>
+
+  <section class="meta">
+    <div><span>Evidence events</span><b id="stTotal">–</b></div>
+    <div><span>Last event</span><b id="stLast">–</b></div>
+    <div><span>Chain head</span><b id="stHead" class="mono">–</b></div>
+  </section>
+
+  <footer>
+    <button id="btnScan" class="secondary">Acquire Baseline</button>
+    <button id="btnOpen" class="primary">Open Dashboard</button>
+  </footer>
+
+  <p class="hint" id="hint"></p>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

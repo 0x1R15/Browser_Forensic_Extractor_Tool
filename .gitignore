@@ -22,3 +22,10 @@ test_timeline.csv
 Case_INV-*.json
 Case_INV-*.pdf
 Case_INV-*.csv
+
+# Extension build/test artifacts
+extension/icons/*.orig
+*.crx
+*.pem
+fbex-*.json
+fbex-*.csv

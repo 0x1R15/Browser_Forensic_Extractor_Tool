@@ -2,10 +2,8 @@ import os
 import sys
 import tkinter as tk
 
-# Ensure the root package is in the Python path
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-from browser_forensics.gui import ForensicApp
+# Import the local GUI module (run as: python desktop/main.py)
+from gui import ForensicApp
 
 def main():
     root = tk.Tk()

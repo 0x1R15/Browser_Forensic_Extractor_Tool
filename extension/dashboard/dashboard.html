@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Forensic Browser Extractor — Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <img src="../icons/icon48.png" alt="" width="34" height="34" />
+        <div>
+          <h1>FBEx</h1>
+          <p>Forensic Browser Extractor</p>
+        </div>
+      </div>
+
+      <nav id="nav">
+        <button class="nav-btn active" data-view="overview">Overview</button>
+        <button class="nav-btn" data-view="timeline">Unified Timeline</button>
+        <button class="nav-btn" data-view="artifacts">Artifacts</button>
+        <button class="nav-btn" data-view="findings">Findings</button>
+        <button class="nav-btn" data-view="chain">Chain of Custody</button>
+        <button class="nav-btn" data-view="reports">Reports</button>
+        <button class="nav-btn" data-view="settings">Settings</button>
+      </nav>
+
+      <div class="sidebar-foot">
+        <div id="capChip" class="chip">● capture</div>
+        <div class="ver" id="verLine">v1.0.0</div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <h2 id="viewTitle">Overview</h2>
+        <div class="topbar-actions">
+          <button id="btnAcquire" class="btn secondary">Acquire Baseline</button>
+          <button id="btnAnalyze" class="btn secondary">Run Analysis</button>
+          <span id="chainChip" class="chip wide">chain: —</span>
+        </div>
+      </header>
+
+      <!-- ================= OVERVIEW ================= -->
+      <section class="view" id="view-overview">
+        <div class="cards" id="statCards"></div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3>Activity — last 30 days</h3>
+            <div id="activityChart" class="chart"></div>
+          </div>
+          <div class="card">
+            <h3>Top domains</h3>
+            <div id="topDomains" class="barchart"></div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3>Findings summary</h3>
+            <div id="findingsSummary" class="chips"></div>
+          </div>
+          <div class="card">
+            <h3>Recent evidence</h3>
+            <div id="recentEvents" class="minitable"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TIMELINE ================= -->
+      <section class="view hidden" id="view-timeline">
+        <div class="card filters">
+          <input type="search" id="tlSearch" placeholder="Search URL, domain, detail, hash…" />
+          <select id="tlType">
+            <option value="">All types</option>
+          </select>
+          <select id="tlSource">
+            <option value="">All sources</option>
+            <option value="live">Live capture</option>
+            <option value="baseline">Baseline</option>
+          </select>
+          <input type="date" id="tlFrom" title="From date" />
+          <input type="date" id="tlTo" title="To date" />
+          <span class="count" id="tlCount">–</span>
+        </div>
+        <div class="card tablecard">
+          <table class="table">
+            <thead>
+              <tr><th>#</th><th>Timestamp</th><th>Type</th><th>Domain</th><th>Detail</th><th>Hash</th></tr>
+            </thead>
+            <tbody id="tlBody"></tbody>
+          </table>
+          <div class="tablefoot">
+            <button class="btn secondary" id="tlMore">Show more</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= ARTIFACTS ================= -->
+      <section class="view hidden" id="view-artifacts">
+        <div class="card filters">
+          <div class="subtabs" id="artTabs">
+            <button class="subtab active" data-art="history">History</button>
+            <button class="subtab" data-art="downloads">Downloads</button>
+            <button class="subtab" data-art="cookies">Cookies</button>
+          </div>
+          <input type="search" id="artSearch" placeholder="Search…" />
+          <span class="count" id="artCount">–</span>
+        </div>
+        <div class="card tablecard">
+          <table class="table" id="artTable">
+            <thead id="artHead"></thead>
+            <tbody id="artBody"></tbody>
+          </table>
+          <div class="tablefoot"><button class="btn secondary" id="artMore">Show more</button></div>
+        </div>
+      </section>
+
+      <!-- ================= FINDINGS ================= -->
+      <section class="view hidden" id="view-findings">
+        <div class="card">
+          <div class="cardhead">
+            <h3>Diagnostic findings</h3>
+            <span class="muted" id="findingsMeta">–</span>
+          </div>
+          <div class="chips" id="findingsChips"></div>
+          <div id="findingsList" class="findings"></div>
+        </div>
+      </section>
+
+      <!-- ================= CHAIN ================= -->
+      <section class="view hidden" id="view-chain">
+        <div class="card">
+          <div class="cardhead">
+            <h3>Evidence hash chain</h3>
+            <button class="btn primary" id="btnVerify">Verify chain</button>
+          </div>
+          <div id="verifyResult" class="banner hidden"></div>
+          <div class="chainmeta" id="chainMeta"></div>
+        </div>
+        <div class="card tablecard">
+          <table class="table">
+            <thead><tr><th>Seq</th><th>Timestamp</th><th>Type</th><th>Hash</th><th>Prev</th></tr></thead>
+            <tbody id="chainBody"></tbody>
+          </table>
+          <div class="tablefoot"><button class="btn secondary" id="chainMore">Show more</button></div>
+        </div>
+      </section>
+
+      <!-- ================= REPORTS ================= -->
+      <section class="view hidden" id="view-reports">
+        <div class="grid-2">
+          <div class="card">
+            <h3>Case metadata</h3>
+            <div class="form">
+              <label>Case ID<input id="caseId" type="text" /></label>
+              <label>Suspect / subject<input id="suspectName" type="text" /></label>
+              <label>Device name<input id="deviceName" type="text" /></label>
+              <label>Investigator<input id="investigator" type="text" /></label>
+              <label>Investigator notes<textarea id="notes" rows="5"></textarea></label>
+            </div>
+            <div class="row">
+              <button class="btn secondary" id="btnSaveCase">Save metadata</button>
+              <span class="muted" id="caseSaved"></span>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Export</h3>
+            <p class="muted">
+              All exports are generated locally. The JSON evidence package contains the full
+              hash-chained event log, baseline artifacts, findings, and case metadata.
+            </p>
+            <div class="exportgrid">
+              <button class="btn primary" id="btnJson">Evidence package (JSON)</button>
+              <button class="btn secondary" id="btnCsv">Unified timeline (CSV)</button>
+              <button class="btn secondary" id="btnPdf">Case report (Print / PDF)</button>
+            </div>
+            <h3 class="mt">Report contents</h3>
+            <div id="reportSummary" class="minitable"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= SETTINGS ================= -->
+      <section class="view hidden" id="view-settings">
+        <div class="grid-2">
+          <div class="card">
+            <h3>Capture configuration</h3>
+            <div class="toggles" id="settingsToggles"></div>
+            <div class="row mt">
+              <button class="btn primary" id="btnSaveSettings">Save configuration</button>
+              <span class="muted" id="settingsSaved"></span>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Danger zone</h3>
+            <p class="muted">
+              Resetting destroys the entire evidence store — events, chain, snapshots — and
+              starts a new genesis chain. The action itself is recorded in the new chain.
+              Export an evidence package first if the current chain has any value.
+            </p>
+            <button class="btn danger" id="btnReset">Reset evidence store…</button>
+            <h3 class="mt">About</h3>
+            <div class="minitable" id="aboutBox"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Print-only case report -->
+  <div id="print-root"></div>
+
+  <script type="module" src="dashboard.js"></script>
+</body>
+</html>
