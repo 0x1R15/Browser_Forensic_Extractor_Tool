@@ -81,11 +81,11 @@ function eventDomain(e) {
 function eventDetail(e) {
   switch (e.type) {
     case 'visit':
-      return `${e.data.title ? e.data.title + ' — ' : ''}${e.data.url}`;
+      return `${e.data.title ? e.data.title + ' · ' : ''}${e.data.url}`;
     case 'incognito-visit':
       return `[private] ${e.data.url} (${e.data.transition || ''})`;
     case 'tab-session':
-      return `${e.data.url || ''} — dwell ${e.data.dwellSec}s${e.data.incognito ? ' [private]' : ''}`;
+      return `${e.data.url || ''} · dwell ${e.data.dwellSec}s${e.data.incognito ? ' [private]' : ''}`;
     case 'download':
       return `${e.data.filename || e.data.url} (${e.data.bytes || 0} bytes)`;
     case 'download-state':
@@ -98,7 +98,7 @@ function eventDetail(e) {
     case 'history-delete':
       return e.data.allHistory
         ? 'ENTIRE history cleared'
-        : `${e.data.count} URL(s) removed${e.data.urls?.length ? ` — e.g. ${e.data.urls[0]}` : ''}`;
+        : `${e.data.count} URL(s) removed${e.data.urls?.length ? `; e.g. ${e.data.urls[0]}` : ''}`;
     case 'snapshot':
       return `baseline acquired: ${e.data.counts.history} URLs, ${e.data.counts.downloads} downloads, ${e.data.counts.cookies} cookies (digest ${e.data.digest.slice(0, 12)}…)`;
     case 'capture-start':

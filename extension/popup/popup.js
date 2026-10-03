@@ -31,7 +31,7 @@ async function refresh() {
       line.textContent = `Chain verified ✓ ${chain.length} events`;
       line.className = 'ok';
     } else if (chain.length === 0) {
-      line.textContent = 'Chain empty — no evidence yet';
+      line.textContent = 'Chain empty; no evidence yet';
       line.className = '';
     } else {
       line.textContent = `CHAIN BROKEN at #${chain.firstBreak}`;
@@ -58,7 +58,7 @@ async function renderStatus(status) {
   $('stTotal').textContent = status.total;
   $('stLast').textContent = status.lastTs
     ? new Date(status.lastTs).toLocaleTimeString()
-    : '—';
+    : '-';
   $('stHead').textContent = status.chainHead
     ? status.chainHead.slice(0, 16) + '…'
     : '(genesis)';
@@ -101,5 +101,5 @@ $('btnOpen').addEventListener('click', () => {
   window.close();
 });
 
-document.title = `${TOOL.shortName} — Status`;
+document.title = `${TOOL.shortName} · Status`;
 refresh();

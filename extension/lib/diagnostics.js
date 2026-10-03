@@ -1,4 +1,4 @@
-// Forensic diagnostics engine — the extension-side port of the desktop
+// Forensic diagnostics engine: the extension-side port of the desktop
 // tool's heuristic suite (`run_diagnostics` in desktop/parsers.py), extended
 // with signals only a live extension can observe.
 //

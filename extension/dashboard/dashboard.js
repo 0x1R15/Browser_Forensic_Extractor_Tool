@@ -1,4 +1,4 @@
-// Forensic Browser Extractor — dashboard application.
+// Forensic Browser Extractor: dashboard application.
 // Reads the evidence store directly; all chain writes go through the
 // background capture engine via command messages.
 
@@ -138,7 +138,7 @@ function renderOverview() {
     { b: cookieEvts.toLocaleString(), s: 'Cookie events', cls: '' },
     { b: deletions.toLocaleString(), s: 'History deletions', cls: sevClass(deletions) },
     {
-      b: chainOk == null ? '—' : chainOk ? '✓' : 'BROKEN',
+      b: chainOk == null ? '-' : chainOk ? '✓' : 'BROKEN',
       s: `Chain (${state.events.length} events)`, cls: chainOk === false ? 'danger' : '',
     },
   ];
@@ -321,7 +321,7 @@ function paintArtifacts() {
   $('artCount').textContent = `${rows.length.toLocaleString()} rows (latest baseline)`;
   $('artBody').innerHTML = rows.slice(0, state.artShown).map((r) =>
     '<tr>' + cols.map(([, get]) => `<td>${esc(get(r))}</td>`).join('') + '</tr>'
-  ).join('') || `<tr><td colspan="${cols.length}" class="muted">No rows — acquire a baseline first.</td></tr>`;
+  ).join('') || `<tr><td colspan="${cols.length}" class="muted">No rows; acquire a baseline first.</td></tr>`;
   $('artMore').style.display = rows.length > state.artShown ? '' : 'none';
 }
 
@@ -357,7 +357,7 @@ function renderChainView() {
     ['Events', state.events.length.toLocaleString()],
     ['Genesis', `${GENESIS_HASH.slice(0, 16)}…`],
     ['Head', head ? `${head.slice(0, 24)}…` : 'verify to display'],
-    ['Last event', state.events.length ? fmtTime(state.events[state.events.length - 1].ts) : '—'],
+    ['Last event', state.events.length ? fmtTime(state.events[state.events.length - 1].ts) : '-'],
   ].map(([k, v]) => `<div><span>${esc(k)}</span><b class="mono">${esc(v)}</b></div>`).join('');
   paintChainTable();
 }
@@ -381,7 +381,7 @@ async function verifyNow() {
   const box = $('verifyResult');
   if (state.chain.ok) {
     box.className = 'banner ok';
-    box.textContent = `Chain verified ✓ — ${state.chain.length} events, head ${state.chain.head.slice(0, 32)}…`;
+    box.textContent = `Chain verified ✓ · ${state.chain.length} events, head ${state.chain.head.slice(0, 32)}…`;
   } else {
     box.className = 'banner bad';
     box.textContent = `CHAIN BROKEN at event #${state.chain.firstBreak}. Evidence from this point onward must be treated as untrustworthy.`;
@@ -442,15 +442,15 @@ async function exportPrint() {
   const sevRow = (s) => `<span class="sev ${esc(s)}">${esc(s)}</span>`;
 
   $('print-root').innerHTML = `
-    <h1>${esc(TOOL.name)} — Forensic Case Report</h1>
+    <h1>${esc(TOOL.name)} · Forensic Case Report</h1>
     <div class="ph">${esc(TOOL.name)} v${esc(TOOL.version)} · generated ${esc(fmtTime(pkg.generatedAt))} · all times local to the examiner machine</div>
     <h2>Case information</h2>
     <table class="kv">
-      <tr><td>Case ID</td><td>${esc(m.caseId || '—')}</td></tr>
-      <tr><td>Subject / suspect</td><td>${esc(m.suspectName || '—')}</td></tr>
-      <tr><td>Device</td><td>${esc(m.deviceName || '—')}</td></tr>
-      <tr><td>Investigator</td><td>${esc(m.investigator || '—')}</td></tr>
-      <tr><td>Notes</td><td>${esc(m.notes || '—')}</td></tr>
+      <tr><td>Case ID</td><td>${esc(m.caseId || '-')}</td></tr>
+      <tr><td>Subject / suspect</td><td>${esc(m.suspectName || '-')}</td></tr>
+      <tr><td>Device</td><td>${esc(m.deviceName || '-')}</td></tr>
+      <tr><td>Investigator</td><td>${esc(m.investigator || '-')}</td></tr>
+      <tr><td>Notes</td><td>${esc(m.notes || '-')}</td></tr>
     </table>
     <h2>Evidence summary</h2>
     <table>
@@ -498,7 +498,7 @@ function renderSettings() {
     ['Version', `v${TOOL.version} (MV3)`],
     ['Storage', 'IndexedDB, local only'],
     ['Chain', `SHA-256 linked list, ${state.events.length} events`],
-    ['Telemetry', 'none — no network calls'],
+    ['Telemetry', 'none (no network calls)'],
   ].map(([k, v]) => `<div class="row"><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('');
   $('settingsSaved').textContent = '';
 }
@@ -595,11 +595,11 @@ function wire() {
       await send('reset', { reason: 'dashboard reset' });
       await loadAll();
       showView('overview');
-      toast('evidence store reset — new genesis chain');
+      toast('evidence store reset · new genesis chain');
     } catch (e) { toast(e.message, true); }
   });
 
-  document.title = `${TOOL.name} — Dashboard`;
+  document.title = `${TOOL.name} · Dashboard`;
 }
 
 async function main() {

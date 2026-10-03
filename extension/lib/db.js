@@ -1,10 +1,10 @@
 // IndexedDB evidence store.
 //
 // Database layout (`fbex-evidence` v1):
-//   meta      keyPath 'key'   — case metadata, settings, chain head, sequence counter
-//   events    keyPath 'seq'   — append-only hash-chained evidence events
-//                              — indexes: 'by-ts' (ts), 'by-type' (type)
-//   snapshots keyPath 'id'    — baseline acquisition artifacts (history/downloads/cookies)
+//   meta      keyPath 'key'  : case metadata, settings, chain head, sequence counter
+//   events    keyPath 'seq'  : append-only hash-chained evidence events
+//                             (indexes: 'by-ts' on ts, 'by-type' on type)
+//   snapshots keyPath 'id'   : baseline acquisition artifacts (history/downloads/cookies)
 //
 // Single-writer discipline: only the background service worker appends chain
 // events. Dashboard/popup contexts read directly and mutate only `meta`.

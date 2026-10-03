@@ -50,7 +50,7 @@ export function domainOf(url) {
 
 /**
  * Canonical JSON serialization (sorted object keys, recursive) so that
- * identical logical payloads always produce an identical byte sequence —
+ * identical logical payloads always produce an identical byte sequence,
  * a prerequisite for stable hashing.
  */
 export function canonicalize(value) {
@@ -78,7 +78,7 @@ export function toCsv(rows, columns) {
 
 /** Human-readable byte size. */
 export function fmtBytes(n) {
-  if (n == null || Number.isNaN(n)) return '—';
+  if (n == null || Number.isNaN(n)) return '-';
   if (n < 1024) return `${n} B`;
   const units = ['KB', 'MB', 'GB', 'TB'];
   let v = n / 1024;
@@ -92,7 +92,7 @@ export function fmtBytes(n) {
 
 /** Local-time short timestamp for UI rendering. */
 export function fmtTime(iso) {
-  if (!iso) return '—';
+  if (!iso) return '-';
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return String(iso);
   return d.toLocaleString(undefined, {

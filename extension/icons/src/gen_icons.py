@@ -3,7 +3,7 @@
 rasterizer: signed-distance fields + 4x supersampling, encoded as PNG via zlib.
 
 Design: dark slate rounded square, emerald magnifier (forensic lens) with a
-data-bar motif inside the lens — matches the tool's dashboard palette.
+data-bar motif inside the lens; matches the tool's dashboard palette.
 Run from anywhere:  python3 extension/icons/src/gen_icons.py
 """
 

@@ -1,12 +1,12 @@
 // Tamper-evident SHA-256 hash chain for evidence events.
 //
 // Every event record carries:
-//   seq   — monotonically increasing sequence number (1-based)
-//   ts    — ISO-8601 UTC capture time
-//   type  — event type discriminator
-//   data  — arbitrary JSON payload
-//   prev  — hash of the previous event ('0'*64 for the genesis event)
-//   hash  — SHA-256 over `${seq}|${ts}|${type}|${canonicalize(data)}|${prev}`
+//   seq   : monotonically increasing sequence number (1-based)
+//   ts    : ISO-8601 UTC capture time
+//   type  : event type discriminator
+//   data  : arbitrary JSON payload
+//   prev  : hash of the previous event ('0'*64 for the genesis event)
+//   hash  : SHA-256 over `${seq}|${ts}|${type}|${canonicalize(data)}|${prev}`
 //
 // Any retroactive modification of an event breaks its own hash and every
 // subsequent hash, making silent tampering detectable by re-walking the chain.

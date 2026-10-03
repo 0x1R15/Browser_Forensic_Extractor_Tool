@@ -1,4 +1,4 @@
-// Forensic Browser Extractor — background capture engine (MV3 service worker).
+// Forensic Browser Extractor: background capture engine (MV3 service worker).
 //
 // Owns ALL writes to the evidence store (single-writer discipline). Every
 // observation is appended to the tamper-evident hash chain (lib/chain.js)
@@ -109,7 +109,7 @@ api.webNavigation.onCommitted.addListener((details) => {
   tabNav.set(details.tabId, entry);
 
   if (!captureActive() || !settings.incognito) return;
-  // Private navigation leaves no history trace — record it directly.
+  // Private navigation leaves no history trace; record it directly.
   try {
     api.tabs.get(details.tabId, (tab) => {
       if (api.runtime.lastError) return;
@@ -126,7 +126,7 @@ api.webNavigation.onCommitted.addListener((details) => {
       }
     });
   } catch {
-    /* tabs.get unavailable — skip incognito enrichment */
+    /* tabs.get unavailable; skip incognito enrichment */
   }
 });
 
